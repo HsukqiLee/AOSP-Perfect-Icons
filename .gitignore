@@ -1,0 +1,35 @@
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local env/tools
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Android / Gradle
+**/.gradle/
+**/build/
+**/.kotlin/
+**/local.properties
+**/captures/
+**/.externalNativeBuild/
+**/.cxx/
+
+# Logs and temp
+*.log
+*.tmp
+*.temp
+
+# Keep this local scratch file out of commits
+template.sketch
