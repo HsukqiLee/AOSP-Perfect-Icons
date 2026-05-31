@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AOSPPerfectIcons" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowBackground">?attr/colorSurface</item>
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorSecondary">@color/text_secondary</item>
+        <item name="colorTertiary">@color/brand</item>
+    </style>
+</resources>

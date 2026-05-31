@@ -1,0 +1,269 @@
+{
+  "一甜相机": [
+    "ComponentInfo{com.kwai.m2u/com.kwai.m2u.launch.M2uRouterActivity}"
+  ],
+  "万能遥控": [
+    "ComponentInfo{com.duokan.phone.remotecontroller/com.xiaomi.mitv.phone.remotecontroller.HoriWidgetMainActivityV2}"
+  ],
+  "大众点评": [
+    "ComponentInfo{com.dianping.v1/com.dianping.v1.NovaMainActivity}"
+  ],
+  "大学搜题酱": [
+    "ComponentInfo{com.zmzx.college.search/com.zmzx.college.search.activity.init.InitActivity}"
+  ],
+  "小米运动健康": [
+    "ComponentInfo{com.mi.health/com.xiaomi.fitness.login.SplashActivity}"
+  ],
+  "小米商城": [
+    "ComponentInfo{com.xiaomi.shop/com.xiaomi.shop.activity.MainTabActivity}"
+  ],
+  "小红书": [
+    "ComponentInfo{com.xingin.xhs/com.xingin.xhs.index.v2.IndexActivityV2}"
+  ],
+  "小爱音箱": [
+    "ComponentInfo{com.xiaomi.mico/com.xiaomi.mico.splash.SplashActivity}"
+  ],
+  "中国大学MOOC": [
+    "ComponentInfo{com.netease.edu.ucmooc/com.netease.edu.ucmooc.activity.ActivityWelcome}"
+  ],
+  "中国建设银行": [
+    "ComponentInfo{com.chinamworld.main/com.ccb.start.MainActivity}"
+  ],
+  "中国移动": [
+    "ComponentInfo{com.greenpoint.android.mc10086.activity/com.mc10086.cmcc.base.StartPageActivity}"
+  ],
+  "云闪付": [
+    "ComponentInfo{com.unionpay/com.unionpay.activity.UPActivityMain}"
+  ],
+  "币安": [
+    "ComponentInfo{com.binance.dev/com.eaas.launcher.activities.main.MainActivity}"
+  ],
+  "支付宝": [
+    "ComponentInfo{com.eg.android.AlipayGphone/com.eg.android.AlipayGphone.AlipayLogin}"
+  ],
+  "无他相机": [
+    "ComponentInfo{com.benqu.wuta/com.benqu.wuta.activities.splash.SplashActivity}"
+  ],
+  "无忧行": [
+    "ComponentInfo{com.cmi.jegotrip/com.cmi.jegotrip.ui.LauncherActivity}"
+  ],
+  "台北捷运Go": [
+    "ComponentInfo{tw.com.trtc.is.android05/tw.com.trtc.isf.Welcome}"
+  ],
+  "企业微信": [
+    "ComponentInfo{com.tencent.wework/com.tencent.wework.launch.LaunchSplashActivity}"
+  ],
+  "个人所得税": [
+    "ComponentInfo{cn.gov.tax.its/cn.gov.tax.its.MainActivity}"
+  ],
+  "12123交管": [
+    "ComponentInfo{com.tmri.app.main/com.tmri.app.ui.activity.main.TmriNewActivity}"
+  ],
+  "369出行": [
+    "ComponentInfo{insigma.waybook.jinan/insigma.waybook.jinan.ui.splash.SplashActivity}"
+  ],
+  "CSDN": [
+    "ComponentInfo{net.csdn.csdnplus/net.csdn.csdnplus.activity.SplashActivity}"
+  ],
+  "DeviantArt": [
+    "ComponentInfo{com.deviantart.android.damobile/com.deviantart.android.damobile.activity.HomeActivity}"
+  ],
+  "QQ邮箱": [
+    "ComponentInfo{com.tencent.androidqqmail/com.tencent.qqmail.launcher.desktop.LauncherActivity}"
+  ],
+  "农业银行": [
+    "ComponentInfo{com.android.bankabc/com.android.bankabc.LauncherActivity}"
+  ],
+  "华为应用市场": [
+    "ComponentInfo{com.huawei.appmarket/com.huawei.appmarket.MainActivity}"
+  ],
+  "华为智慧生活": [
+    "ComponentInfo{com.huawei.smarthome/com.huawei.smarthome.login.LauncherActivity}"
+  ],
+  "向日葵远程控制": [
+    "ComponentInfo{com.oray.sunlogin/com.oray.sunlogin.application.Main}"
+  ],
+  "多邻国": [
+    "ComponentInfo{com.duolingo/com.duolingo.app.LoginActivity}"
+  ],
+  "夸克": [
+    "ComponentInfo{com.quark.browser/com.ucpro.MainActivity}"
+  ],
+  "百词斩": [
+    "ComponentInfo{com.jiongji.andriod.card/com.baicizhan.main.activity.LoadingPageActivity}"
+  ],
+  "百度地图": [
+    "ComponentInfo{com.baidu.BaiduMap/com.baidu.baidumaps.WelcomeScreen}"
+  ],
+  "百度网盘": [
+    "ComponentInfo{com.baidu.netdisk/com.baidu.netdisk.ui.DefaultMainActivity}"
+  ],
+  "米家": [
+    "ComponentInfo{com.xiaomi.smarthome/com.xiaomi.smarthome.SmartHomeMainActivity}"
+  ],
+  "抖音商城": [
+    "ComponentInfo{com.ss.android.ugc.livelite/com.ss.android.ugc.aweme.splash.SplashActivity}"
+  ],
+  "汽水音乐": [
+    "ComponentInfo{com.luna.music/com.luna.biz.main.main.MainActivity}"
+  ],
+  "闲鱼": [
+    "ComponentInfo{com.taobao.idlefish/com.taobao.fleamarket.home.activity.InitActivity}"
+  ],
+  "京东": [
+    "ComponentInfo{com.jingdong.app.mall/com.jingdong.app.mall.MainFrameActivity}"
+  ],
+  "阿里云盘": [
+    "ComponentInfo{com.alicloud.databox/com.alicloud.databox.launcher.splash.SplashActivity}"
+  ],
+  "哔哩哔哩": [
+    "ComponentInfo{tv.danmaku.bili/tv.danmaku.bili.MainActivityV2}"
+  ],
+  "美团外卖": [
+    "ComponentInfo{com.sankuai.meituan.takeoutnew/com.sankuai.meituan.takeoutnew.ui.page.boot.WelcomeActivity}"
+  ],
+  "美的美居": [
+    "ComponentInfo{com.midea.ai.appliances/com.midea.meiju.welcome.WelcomeActivityMeiJu}"
+  ],
+  "轻颜": [
+    "ComponentInfo{com.gorgeous.lite/com.light.beauty.mainpage.MainActivity}"
+  ],
+  "铁路12306": [
+    "ComponentInfo{com.chinarailway.globalticketing/com.MobileTicket.ui.activity.WelcomeGuideActivity}"
+  ],
+  "高德地图": [
+    "ComponentInfo{com.autonavi.minimap/com.autonavi.map.activity.SplashActivity}"
+  ],
+  "淘宝": [
+    "ComponentInfo{com.taobao.taobao/com.taobao.tao.welcome.Welcome}"
+  ],
+  "智慧珞珈": [
+    "ComponentInfo{com.chaoxing.mobile.wuhanuniversity/com.chaoxing.mobile.activity.SplashActivity}"
+  ],
+  "菜鸟": [
+    "ComponentInfo{com.cainiao.wireless/com.cainiao.wireless.homepage.view.activity.WelcomeActivity}"
+  ],
+  "超星学习通": [
+    "ComponentInfo{com.chaoxing.mobile/com.chaoxing.mobile.activity.SplashActivity}"
+  ],
+  "携程旅行": [
+    "ComponentInfo{ctrip.android.view/ctrip.business.splash.CtripSplashActivity}"
+  ],
+  "腾讯会议": [
+    "ComponentInfo{com.tencent.wemeet.app/com.tencent.wemeet.app.StartupActivity}"
+  ],
+  "滴滴": [
+    "ComponentInfo{com.sdu.didi.psnger/com.didi.sdk.app.launch.splash.SplashActivity}"
+  ],
+  "醒图": [
+    "ComponentInfo{com.xt.retouch/com.xt.retouch.uilauncher.LaunchActivity}"
+  ],
+  "AOSP Perfect Icon": [
+    "ComponentInfo{com.android.perfect.icon/cn.ommiao.iconpacktemplate.MainActivity}"
+  ],
+  "DITO": [
+    "ComponentInfo{com.mydito/com.mydito.app_icon_12}"
+  ],
+  "EdifierConnect": [
+    "ComponentInfo{com.edifier.edifierconnect/com.edifier.edifierconnect.StartPageNewActivity}"
+  ],
+  "MicrosoftOffice": [
+    "ComponentInfo{com.microsoft.office.officehubrow/com.microsoft.office.officesuite.OfficeSuiteActivity}"
+  ],
+  "Milthm": [
+    "ComponentInfo{com.morizero.milthm/com.morizero.milthm.Milauncher}"
+  ],
+  "PicACG": [
+    "ComponentInfo{com.picacomic.fregata/com.picacomic.fregata.activities.SplashActivity}"
+  ],
+  "QQ": [
+    "ComponentInfo{com.tencent.mobileqq/com.tencent.mobileqq.activity.SplashActivity}"
+  ],
+  "Todesk": [
+    "ComponentInfo{youqu.android.todesk/youqu.android.todesk.activity.WelcomeActivity}"
+  ],
+  "WebView Beta": [
+    "ComponentInfo{com.google.android.webview.beta/org.chromium.android_webview.devui.LauncherActivity}"
+  ],
+  "WebView Dev": [
+    "ComponentInfo{com.google.android.webview.dev/org.chromium.android_webview.devui.LauncherActivity}"
+  ],
+  "中信银行": [
+    "PackageInfo{com.ecitic.bank.mobile}"
+  ],
+  "中国工商银行": [
+    "PackageInfo{com.icbc}"
+  ],
+  "中国银行": [
+    "PackageInfo{com.chinamworld.bocmbci}"
+  ],
+  "买单吧": [
+    "PackageInfo{com.bankcomm.maidanba}"
+  ],
+  "交通银行": [
+    "PackageInfo{com.bankcomm.Bankcomm}"
+  ],
+  "京东金融": [
+    "PackageInfo{com.jd.jrapp}"
+  ],
+  "光大银行": [
+    "PackageInfo{com.cebbank.mobile.cemb}"
+  ],
+  "全民K歌": [
+    "PackageInfo{com.tencent.karaoke}"
+  ],
+  "公考雷达": [
+    "PackageInfo{com.maidu.gkld}"
+  ],
+  "安居客": [
+    "PackageInfo{com.anjuke.android.app}"
+  ],
+  "小米移动": [
+    "PackageInfo{com.xiaomi.mimobile}"
+  ],
+  "平安口袋银行": [
+    "PackageInfo{com.pingan.paces.ccms}"
+  ],
+  "微博": [
+    "PackageInfo{com.sina.weibo}"
+  ],
+  "拼多多": [
+    "PackageInfo{com.xunmeng.pinduoduo}"
+  ],
+  "永辉生活": [
+    "PackageInfo{cn.yonghui.hyd}"
+  ],
+  "爱山东": [
+    "PackageInfo{com.hanweb.android.sdzwfw.activity}"
+  ],
+  "瑞幸咖啡": [
+    "PackageInfo{com.lucky.luckyclient}"
+  ],
+  "皮皮虾": [
+    "PackageInfo{com.sup.android.superb}"
+  ],
+  "盒马": [
+    "PackageInfo{com.wudaokou.hippo}"
+  ],
+  "缤纷生活": [
+    "PackageInfo{com.forms}"
+  ],
+  "肯德基": [
+    "PackageInfo{com.yek.android.kfc.activitys}"
+  ],
+  "车来了": [
+    "PackageInfo{com.ygkj.chelaile.standard}"
+  ],
+  "闽政通": [
+    "PackageInfo{net.evecom.android.mztapp}"
+  ],
+  "阳光惠生活": [
+    "PackageInfo{com.ebank.creditcard}"
+  ],
+  "阿里巴巴": [
+    "PackageInfo{com.alibaba.wireless}"
+  ],
+  "麦当劳": [
+    "PackageInfo{com.mcdonalds.gma.cn}"
+  ]
+}

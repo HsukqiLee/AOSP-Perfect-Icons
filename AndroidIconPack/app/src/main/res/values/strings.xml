@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AOSP Perfect Icon</string>
+    <string name="icon_count_text">%1$d icons available</string>
+    <string name="search_result_text">%1$d / %2$d results</string>
+    <string name="search_hint">Search by app, icon, or activity</string>
+    <string name="icon_content_desc">Icon preview</string>
+    <string name="launch_failed">No launchable app found</string>
+    <string name="launch_button_text">Launch app</string>
+    <string name="detail_package_text">Package: %1$s</string>
+    <string name="detail_activity_text">Activity: %1$s</string>
+    <string name="detail_unknown">Unknown</string>
+    <string name="group_mapped_title">Usable (%1$d)</string>
+    <string name="group_unmapped_title">Unmapped (%1$d)</string>
+    <string name="press_back_again_to_exit">Press back again to exit</string>
+</resources>
