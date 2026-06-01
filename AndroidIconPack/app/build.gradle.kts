@@ -199,29 +199,21 @@ val generateIconPackResources by tasks.registering {
             val hexColor = iconColors?.get(displayName) ?: "#ffffff"
             colorsXml.append("    <color name=\"${finalName}_bg\">${hexColor}</color>\n")
 
-            val backgroundDrawable = if (finalName == "ic_launcher") {
-                "@android:color/white"
-            } else {
-                "@color/${finalName}_bg"
-            }
+            val backgroundDrawable = "@color/${finalName}_bg"
 
-            val foregroundDrawable = if (finalName == "ic_launcher") {
-                "@drawable/${previewDrawableName}"
-            } else {
-                val launcherForegroundName = "${finalName}_foreground"
-                launcherDrawableDir.resolve("${launcherForegroundName}.xml").writeText(
-                    """
-                    <?xml version="1.0" encoding="utf-8"?>
-                    <inset xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:insetLeft="12dp"
-                        android:insetTop="12dp"
-                        android:insetRight="12dp"
-                        android:insetBottom="12dp"
-                        android:drawable="@drawable/${previewDrawableName}" />
-                    """.trimIndent() + "\n"
-                )
-                "@drawable/${launcherForegroundName}"
-            }
+            val launcherForegroundName = "${finalName}_foreground"
+            launcherDrawableDir.resolve("${launcherForegroundName}.xml").writeText(
+                """
+                <?xml version="1.0" encoding="utf-8"?>
+                <inset xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:insetLeft="12dp"
+                    android:insetTop="12dp"
+                    android:insetRight="12dp"
+                    android:insetBottom="12dp"
+                    android:drawable="@drawable/${previewDrawableName}" />
+                """.trimIndent() + "\n"
+            )
+            val foregroundDrawable = "@drawable/${launcherForegroundName}"
 
             adaptiveXmlDir.resolve("${finalName}.xml").writeText(
                 """
