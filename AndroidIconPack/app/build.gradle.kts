@@ -96,6 +96,7 @@ val generateIconPackResources by tasks.registering {
         val drawableDir = generatedRoot.resolve("res/drawable-nodpi")
         val launcherDrawableDir = generatedRoot.resolve("res/drawable")
         val adaptiveXmlDir = generatedRoot.resolve("res/drawable-anydpi-v26")
+        val valuesDir = generatedRoot.resolve("res/values")
         val xmlDir = generatedRoot.resolve("res/xml")
         val assetsDir = generatedRoot.resolve("assets")
 
@@ -103,8 +104,22 @@ val generateIconPackResources by tasks.registering {
         drawableDir.mkdirs()
         launcherDrawableDir.mkdirs()
         adaptiveXmlDir.mkdirs()
+        valuesDir.mkdirs()
         xmlDir.mkdirs()
         assetsDir.mkdirs()
+
+        val iconColorsFile = sourceDir.resolve("icon_colors.json")
+        @Suppress("UNCHECKED_CAST")
+        val iconColors = if (iconColorsFile.exists()) {
+            JsonSlurper().parse(iconColorsFile) as? Map<String, String>
+        } else {
+            emptyMap()
+        }
+
+        val colorsXml = StringBuilder().apply {
+            append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
+            append("<resources>\n")
+        }
 
         val sourcePngs = sourceDir
             .listFiles { f -> f.isFile && f.extension.equals("png", ignoreCase = true) }
@@ -170,41 +185,40 @@ val generateIconPackResources by tasks.registering {
             usedNames += finalName
 
             val components = componentMapByKey[normalizeMatchKey(displayName)]?.toList().orEmpty()
-            val previewDrawableName = if (finalName == "ic_launcher") "${finalName}_preview" else finalName
+            val previewDrawableName = "${finalName}_preview"
 
             if (finalName == "ic_launcher") {
                 val xxxhdpiDir = generatedRoot.resolve("res/drawable-xxxhdpi")
                 xxxhdpiDir.mkdirs()
                 file.copyTo(xxxhdpiDir.resolve("${previewDrawableName}.png"), overwrite = true)
                 file.copyTo(drawableDir.resolve("${previewDrawableName}.png"), overwrite = true)
-
-                adaptiveXmlDir.resolve("${finalName}.xml").writeText(
-                    """
-                    <?xml version="1.0" encoding="utf-8"?>
-                    <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-                        <background android:drawable="@android:color/white" />
-                        <foreground android:drawable="@drawable/${previewDrawableName}" />
-                    </adaptive-icon>
-                    """.trimIndent() + "\n"
-                )
-
-                iconEntries += GeneratedIconEntry(
-                    name = displayName,
-                    drawable = previewDrawableName,
-                    launcherDrawable = finalName,
-                    components = components
-                )
             } else {
-                file.copyTo(drawableDir.resolve("${finalName}.png"), overwrite = true)
-
-                iconEntries += GeneratedIconEntry(
-                    name = displayName,
-                    drawable = finalName,
-                    launcherDrawable = finalName,
-                    components = components
-                )
+                file.copyTo(drawableDir.resolve("${previewDrawableName}.png"), overwrite = true)
             }
+
+            val hexColor = iconColors?.get(displayName) ?: "#ffffff"
+            colorsXml.append("    <color name=\"${finalName}_bg\">${hexColor}</color>\n")
+
+            adaptiveXmlDir.resolve("${finalName}.xml").writeText(
+                """
+                <?xml version="1.0" encoding="utf-8"?>
+                <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+                    <background android:drawable="@color/${finalName}_bg" />
+                    <foreground android:drawable="@drawable/${previewDrawableName}" />
+                </adaptive-icon>
+                """.trimIndent() + "\n"
+            )
+
+            iconEntries += GeneratedIconEntry(
+                name = displayName,
+                drawable = previewDrawableName,
+                launcherDrawable = finalName,
+                components = components
+            )
         }
+
+        colorsXml.append("</resources>\n")
+        valuesDir.resolve("colors.xml").writeText(colorsXml.toString())
 
         val jsonContent = buildString {
             append("[\n")

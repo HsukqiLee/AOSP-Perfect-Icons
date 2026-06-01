@@ -236,6 +236,7 @@ def process_icons(input_dir, output_dir):
     processed_count = 0
     skipped_count = 0
     compressed_count = 0
+    icon_colors = {}
 
     if not os.path.exists(input_dir):
         print(f"Error: Input directory '{input_dir}' not found.")
@@ -290,8 +291,15 @@ def process_icons(input_dir, output_dir):
 
                 # Save the trimmed image directly so the output keeps only the visible content.
                 trimmed_img.save(output_path, optimize=True)
+                
+                # Extract dominant edge color
+                r, g, b = _sample_matte_color(trimmed_img)
+                color_hex = f"#{r:02x}{g:02x}{b:02x}"
+                display_name = os.path.splitext(filename)[0]
+                icon_colors[display_name] = color_hex
+                
                 processed_count += 1
-                print(f"Processed: {filename}")
+                print(f"Processed: {filename} with color {color_hex}")
 
         except Exception as e:
             print(f"Error processing {filename}: {e}")
@@ -303,6 +311,12 @@ def process_icons(input_dir, output_dir):
     print(f"Skipped/Errors: {skipped_count}")
 
     _save_compression_cache(cache_path, compression_cache)
+
+    # Save colors to json
+    colors_json_path = os.path.join(output_dir, "icon_colors.json")
+    with open(colors_json_path, "w", encoding="utf-8") as handle:
+        json.dump(icon_colors, handle, ensure_ascii=False, indent=2, sort_keys=True)
+    print(f"Saved {len(icon_colors)} icon colors to {colors_json_path}")
 
 if __name__ == "__main__":
     current_dir = os.getcwd()
