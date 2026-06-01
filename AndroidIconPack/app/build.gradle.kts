@@ -7,7 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val iconPackCompileSdk = providers.gradleProperty("ICONPACK_COMPILE_SDK").orNull?.toIntOrNull() ?: 37
+val iconPackCompileSdk = providers.gradleProperty("ICONPACK_COMPILE_SDK").orNull?.toIntOrNull() ?: 35
 val iconPackTargetSdk = providers.gradleProperty("ICONPACK_TARGET_SDK").orNull?.toIntOrNull() ?: iconPackCompileSdk
 val iconPackStoreFile = providers.gradleProperty("ICONPACK_STORE_FILE").orNull?.let { rootProject.file(it) }
 val iconPackStorePassword = providers.gradleProperty("ICONPACK_STORE_PASSWORD").orNull
