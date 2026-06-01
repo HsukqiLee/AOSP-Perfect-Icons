@@ -1,97 +1,137 @@
 ![image](https://github.com/elliana-wt/Pixel-Launcher-Icons/blob/main/otherimg/githubbanner.png)
 
-# Pixel 启动器图标补全计划
+# AOSP Perfect Icons & Pixel 启动器图标补全计划
 
-专门整治那些与 Pixel Launcher 水土不服的、喜欢乱加营销信息的 App 图标。
+这是一个专为解决与 Pixel Launcher、系统 Launcher 或第三方启动器水土不服、样式不一的国内高频 App 图标而构建的图标包补全项目。
+本项目基于原作者仓库 [elliana-wt/Pixel-Launcher-Icons](https://github.com/elliana-wt/Pixel-Launcher-Icons) 进行二次开发与润色，由 **Hsukqi Lee** 维护，集成了完整的 Material 3 设计规范、多语言切换、自适应图标渲染优化和自动化签名构建。
 
-Since apps on Google Play generally support icon specifications, this project generally only needs to include Chinese apps. If you are interested in this project, its language defaults to Chinese.
+> [!NOTE]
+> 本项目的 Android 图标包工程包名已升级为标准的个人域名包名：`com.tsinbei.aospperfecticons`。
 
-## 目录说明
+---
 
-- **PixelLauncherMods**: 用于 Pixel Launcher Mods 的图标，包含透明边框。
-- **GlobalIconPack**: 用于 Global Icon Pack 的图标，去除了多余的透明边框以保证显示大小和正常图标一致。
-- **AndroidIconPack**: Android 图标包工程，构建时会自动读取 `GlobalIconPack` 并生成可发布 APK。
+## 目录结构说明
 
-## 批量处理脚本
+* **PixelLauncherMods**: 用于存放设计师绘制好的**带透明边框**的原始 PNG 图标。
+* **GlobalIconPack**: 存放经 Python 脚本处理后的**贴边/无损压缩**图标，用于被 Android 图标包工程读取。
+* **AndroidIconPack**: 图标包的 Android 工程源码，支持 Material 3 底栏导航、应用内/系统多语言切换以及自动生成图标包资源配置。
+* **process_icons.py**: 用于自动化处理图标大小、剪裁透明边距并无损压缩的 Python 脚本。
+* **component-map.json**: 图标与 App 组件（包名和 Activity 启动项）的映射配置文件，构建时会自动解析并生成对应的安卓资源文件。
 
-本项目包含一个 Python 脚本 `process_icons.py`，用于批量处理图标。
+---
 
-### 功能
-1.  **预处理**：如果源图片尺寸为 512x518（未知原因导致导出的图标底部有空白），脚本会自动裁剪底部 6 像素，将其恢复为 512x512。
-2.  **源文件压缩**：检查源文件（`PixelLauncherMods` 目录）大小，如果超过 200KB，脚本会自动进行无损压缩并覆盖源文件，以减小体积。
-3.  **去透明边并贴边重排**：先按 alpha 通道裁掉透明边距，再把图标主体尽量撑满 512x512 画布，避免额外内边距。
-4.  **避免黑边伪影**：通过预乘 alpha 缩放，减少“透明黑底参与插值”导致的黑圈/黑边问题。
+## 开发与适配流程（一步步教你如何添加新图标）
 
-### 使用方法
-1.  确保已安装 Python 和 Pillow 库 (`pip install Pillow`)。
-2.  将原始图标放入 `PixelLauncherMods` 目录。
-3.  运行脚本：`python process_icons.py`
-4.  处理后的图标将生成在 `GlobalIconPack` 目录中。
+如果你想为某个 App 添加图标适配，请按照以下流程操作：
 
-## Android 图标包工程
+### 第一步：绘制与准备图标
+1. 绘制尺寸为 `512x512` 像素的 PNG 图标。
+2. 将设计好的原始图标（可带有适当的透明外边距）放入 `PixelLauncherMods` 目录，命名为 `应用名称.png`（例如 `WeChat.png`）。
 
-`AndroidIconPack` 是一个可直接构建的 Android 图标包应用（`compileSdk/targetSdk = 37`）。
+### 第二步：查找目标应用的 PackageName 与 Component 路径
+Android 系统启动器是通过应用的组件信息来识别并替换图标的。你需要找到该应用的包名以及启动 Activity 类名。
+* **推荐查找方法 1（使用 ADB 命令行）**：
+  在手机上打开该 App，在电脑终端输入以下命令：
+  ```bash
+  adb shell dumpsys window | findstr mCurrentFocus
+  # 或者
+  adb shell dumpsys activity activities | findstr mFocusedApp
+  ```
+  你会得到类似输出：`mCurrentFocus=Window{... u0 com.tencent.mm/com.tencent.mm.ui.LauncherUI}`。
+  其中 `com.tencent.mm` 即为包名，`com.tencent.mm.ui.LauncherUI` 即为启动 Activity。
+* **推荐查找方法 2（使用手机端开发者工具）**：
+  使用“创建快捷方式”、“当前 Activity”或“MT管理器”等工具，查看已安装应用的包名和主 Activity 路径。
 
-### 自动资源生成
-
-构建时会自动执行 `generateIconPackResources` 任务：
-1. 扫描 `GlobalIconPack/*.png`。
-2. 将文件名转换为合法 Android 资源名并复制到 `drawable-nodpi`。
-3. 生成 `assets/icon_pack_index.json`（用于应用内展示）。
-4. 基于 `AndroidIconPack/legacy-component-map.json` 自动写入 `component -> drawable` 对应关系（后续直接改这个 map 文件即可）。
-5. 生成 `assets/appfilter.xml` 与 `res/xml/drawable.xml`（兼容常见 launcher 的图标包读取方式）。
-
-生成的 `GlobalIconPack` 图标会尽量贴近正方形边框，供 launcher 自行加边框后保持正常视觉尺寸。
-
-### 组件映射维护
-
-组件映射文件：`AndroidIconPack/legacy-component-map.json`
-
-后续直接修改这份 map 即可，构建时会自动注入到 `appfilter.xml`。
-
-应用主页支持点击图标直接启动对应 app；未安装或无可启动组件时会给出提示。
-
-### 本地构建
-
-在 `AndroidIconPack` 目录执行：
-
-```bash
-gradle :app:assembleRelease
+### 第三步：添加组件映射
+打开项目根目录下的 [component-map.json](file:///q:/Android/AOSPPerfectIcons/AndroidIconPack/component-map.json)，在对应的图标名称下添加你要适配的组件信息（支持添加多条组件映射，例如不同版本或分身应用的 Activity）：
+```json
+  "WeChat": [
+    "ComponentInfo{com.tencent.mm/com.tencent.mm.ui.LauncherUI}"
+  ]
 ```
+> [!TIP]
+> 如果无法确定具体的启动 Activity，也可以只使用包名进行模糊匹配，声明格式为：`PackageInfo{com.example.app}`。
 
-### 固定签名
+### 第四步：运行 Python 脚本处理图标
+1. 确保安装了 Python 3 和 Pillow 库：
+   ```bash
+   pip install Pillow
+   ```
+2. 在项目根目录下运行脚本：
+   ```bash
+   python process_icons.py
+   ```
+   *该脚本会自动剪裁 `PixelLauncherMods` 内图标的多余透明边距、转换格式、防止黑边伪影，并进行无损压缩后输出到 `GlobalIconPack`。*
 
-如果你希望后续版本的 APK 保持同一签名，需要给 release 构建提供固定 keystore。
+### 第五步：编译 Android 应用
+只要你修改了 [component-map.json](file:///q:/Android/AOSPPerfectIcons/AndroidIconPack/component-map.json) 或 `GlobalIconPack` 目录，下一次编译 Android 图标包工程时，Gradle 就会自动触发 `generateIconPackResources` 任务，自动为你生成 `assets/appfilter.xml`、`res/xml/drawable.xml` 以及应用内图标索引。
 
-在 `AndroidIconPack/gradle.properties` 或命令行里设置这些属性：
+---
 
-```properties
-ICONPACK_STORE_FILE=path/to/your-release.keystore
-ICONPACK_STORE_PASSWORD=your-store-password
-ICONPACK_KEY_ALIAS=your-key-alias
-ICONPACK_KEY_PASSWORD=your-key-password
+## 本地构建与签名配置
+
+### 1. 普通编译（未签名包）
+进入 `AndroidIconPack` 目录，运行以下命令（由于使用了 Android 35/37 SDK，构建时需要用 `-P` 传递编译 SDK 版本）：
+* **Windows (PowerShell)**:
+  ```powershell
+  .\gradlew.bat :app:assembleRelease "-PICONPACK_COMPILE_SDK=35" "-PICONPACK_TARGET_SDK=35"
+  ```
+* **Linux / macOS**:
+  ```bash
+  ./gradlew :app:assembleRelease -PICONPACK_COMPILE_SDK=35 -PICONPACK_TARGET_SDK=35
+  ```
+编译成功后，未签名的 APK 将输出在：`AndroidIconPack/app/build/outputs/apk/release/app-release-unsigned.apk`。
+
+### 2. 使用本地证书进行签名编译
+如果你生成了自己的 `release.jks`（如我们刚才生成的签名），可以在本地进行签名打包：
+```powershell
+.\gradlew.bat :app:assembleRelease "-PICONPACK_COMPILE_SDK=35" "-PICONPACK_TARGET_SDK=35" "-PICONPACK_STORE_FILE=release.jks" "-PICONPACK_STORE_PASSWORD=aospperfecticons" "-PICONPACK_KEY_ALIAS=perfecticons" "-PICONPACK_KEY_PASSWORD=aospperfecticons"
 ```
+签名后的正式包将输出在：`AndroidIconPack/app/build/outputs/apk/release/app-release.apk`。
 
-设置后，`assembleRelease` 会使用这组签名信息；不设置时会保持当前默认构建行为。
+> [!TIP]
+> 如果不想每次都输入命令行长参数，也可以选择直接在 [gradle.properties](file:///q:/Android/AOSPPerfectIcons/AndroidIconPack/gradle.properties) 中硬编码这些配置：
+> ```properties
+> ICONPACK_STORE_FILE=release.jks
+> ICONPACK_STORE_PASSWORD=aospperfecticons
+> ICONPACK_KEY_ALIAS=perfecticons
+> ICONPACK_KEY_PASSWORD=aospperfecticons
+> ```
 
-APK 输出路径：
+---
 
-`AndroidIconPack/app/build/outputs/apk/release/app-release.apk`
+## GitHub Actions 持续集成与发布配置
 
-## Release 自动构建
+本仓库已预配置了自动编译工作流 [.github/workflows/release-icon-pack.yml](file:///q:/Android/AOSPPerfectIcons/.github/workflows/release-icon-pack.yml)。每次你发布 Release 或手动触发 Actions 时，GitHub 会在云端自动编译并把 APK 挂载到发布附件中。
 
-新增工作流：`.github/workflows/release-icon-pack.yml`
+若要在云端进行**自动签名**，你需要为你的 GitHub 仓库添加以下几个 Secrets 变量：
 
-触发方式：
-1. 发布 GitHub Release（`published`）。
-2. 手动触发（`workflow_dispatch`）。
+### 1. 准备 Base64 格式的签名证书
+因为 GitHub Actions 无法直接输入二进制的 `.jks` 文件，需要将它转化为 Base64 字符串形式输入。
+在本地 PowerShell 中运行以下命令，将你的 `release.jks` 文件转换为 Base64 文本并存入 `keystore_base64.txt`：
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("release.jks")) | Out-File -Encoding ascii keystore_base64.txt
+```
+复制 `keystore_base64.txt` 里的所有字符内容。
 
-工作流会：
-1. 安装 Android SDK 37。
-2. 构建图标包 release APK。
-3. 上传到 Actions artifact。
-4. 在 release 事件下自动把 APK 附加到 GitHub Release。
+### 2. 在 GitHub 仓库设置 Secrets
+打开你的 GitHub 仓库，进入 **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**，添加以下四个变量：
 
-## 前后对比
+* **`KEYSTORE_BASE64`**: 粘贴 `keystore_base64.txt` 里的全部 Base64 字符串。
+* **`KEYSTORE_PASSWORD`**: `aospperfecticons` (你的 Key Store 密码)
+* **`KEY_ALIAS`**: `perfecticons` (你的证书别名)
+* **`KEY_PASSWORD`**: `aospperfecticons` (你的别名私钥密码)
+
+*配置完成后，Actions 就会在云端拉取这些密文、自动解密为证书并完成构建，生成完美签名的 `app-release.apk` 挂载到 Release 页！*
+
+---
+
+## 核心设计与优化细节
+为了确保作为图标包的主体具有一流的 Premium 质感，本项目已特别处理了如下细节：
+* **关于页面防锯齿优化**：将 App 的大图预览资源 `ic_launcher_preview.png` 在编译期预加载到 `drawable-xxxhdpi` 文件夹中。系统解码时会自动进行高品质的双线性插值预缩放，消除了运行时直接在小 ImageView 强制下采样所产生的粗糙锯齿。
+* **本体图标大黑框修复**：遵守 Android Adaptive Icon 规范，将图标包应用自身 `ic_launcher.xml` 的背景层设置为 `@android:color/white` 不透明背景，前景色缩放比设为 `18dp` 以将前景色缩放到安全绘制区，使得本体图标在桌面上显示为极其标准、高雅的白色圆形底座卡片，消除了透明背景导致的系统默认黑色底盒伪影。
+* **M3 导航与多语言自适应**：底栏全面换装 Material 3 标准规范，支持无缝响应 Android 13+ 系统的“单应用语言首选项”切换。并且我们完美重写了 activity 重构时的生命周期状态保存与恢复机制，确保在 App 内切换语言重载后，导航栏高亮状态能与当前显示页面完美对应。
+
+---
 
 ![image](https://github.com/elliana-wt/Pixel-Launcher-Icons/blob/main/otherimg/launcher.jpg)

@@ -1,4 +1,4 @@
-package com.hsukqi.aospperfecticons
+package com.tsinbei.aospperfecticons
 
 data class IconEntry(
     val name: String,

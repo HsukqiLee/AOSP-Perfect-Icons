@@ -1,8 +1,10 @@
-package com.hsukqi.aospperfecticons
+package com.tsinbei.aospperfecticons
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -15,6 +17,8 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -22,6 +26,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONArray
 
@@ -45,6 +50,16 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.iconsRecycler)
         subtitleView = findViewById(R.id.subtitleText)
         val searchInput: EditText = findViewById(R.id.searchInput)
+
+        val layoutHome: View = findViewById(R.id.layoutHome)
+        val layoutAbout: View = findViewById(R.id.layoutAbout)
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigation)
+        val versionText: TextView = findViewById(R.id.versionText)
+        val btnLanguageSettings: View = findViewById(R.id.btnLanguageSettings)
+        val currentLanguageText: TextView = findViewById(R.id.currentLanguageText)
+        val btnGithubLink: View = findViewById(R.id.btnGithubLink)
+        val btnOriginalGithubLink: View = findViewById(R.id.btnOriginalGithubLink)
+
         val baseRootPaddingLeft = rootView.paddingLeft
         val baseRootPaddingTop = rootView.paddingTop
         val baseRootPaddingRight = rootView.paddingRight
@@ -53,6 +68,74 @@ class MainActivity : AppCompatActivity() {
         val baseRecyclerPaddingTop = recyclerView.paddingTop
         val baseRecyclerPaddingRight = recyclerView.paddingRight
         val baseRecyclerPaddingBottom = recyclerView.paddingBottom
+
+        // Dynamic version name
+        val packageInfo = try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
+            } else {
+                packageManager.getPackageInfo(packageName, 0)
+            }
+        } catch (e: Exception) {
+            null
+        }
+        versionText.text = "Version ${packageInfo?.versionName ?: "1.0.0"}"
+
+        // Navigation Setup
+        bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    layoutHome.visibility = View.VISIBLE
+                    layoutAbout.visibility = View.GONE
+                    true
+                }
+                R.id.navigation_about -> {
+                    layoutHome.visibility = View.GONE
+                    layoutAbout.visibility = View.VISIBLE
+                    updateCurrentLanguageText(currentLanguageText)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        // Restore tab layout visibility state after recreation
+        val activeTabId = savedInstanceState?.getInt("active_tab_id") ?: R.id.navigation_home
+        bottomNavigation.selectedItemId = activeTabId
+        if (activeTabId == R.id.navigation_about) {
+            layoutHome.visibility = View.GONE
+            layoutAbout.visibility = View.VISIBLE
+            updateCurrentLanguageText(currentLanguageText)
+        } else {
+            layoutHome.visibility = View.VISIBLE
+            layoutAbout.visibility = View.GONE
+        }
+
+        // Language setting details
+        updateCurrentLanguageText(currentLanguageText)
+        btnLanguageSettings.setOnClickListener {
+            showLanguageSelectorDialog(currentLanguageText)
+        }
+
+        // GitHub link
+        btnGithubLink.setOnClickListener {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/HsukqiLee/Pixel-Launcher-Icons"))
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Could not open browser", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Original GitHub link
+        btnOriginalGithubLink.setOnClickListener {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/elliana-wt/Pixel-Launcher-Icons"))
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Could not open browser", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         rootView.isFocusableInTouchMode = true
         rootView.setOnTouchListener { _, event ->
@@ -82,6 +165,11 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
 
+                if (bottomNavigation.selectedItemId != R.id.navigation_home) {
+                    bottomNavigation.selectedItemId = R.id.navigation_home
+                    return
+                }
+
                 val now = System.currentTimeMillis()
                 if (now - lastBackPressedAt <= 2000L) {
                     finish()
@@ -91,7 +179,7 @@ class MainActivity : AppCompatActivity() {
                         this@MainActivity,
                         getString(R.string.press_back_again_to_exit),
                         Toast.LENGTH_SHORT
-                    ).show()
+                     ).show()
                 }
             }
         })
@@ -104,11 +192,10 @@ class MainActivity : AppCompatActivity() {
                 right = baseRootPaddingRight + bars.right,
                 bottom = baseRootPaddingBottom
             )
-            recyclerView.updatePadding(
-                left = baseRecyclerPaddingLeft,
-                top = baseRecyclerPaddingTop,
-                right = baseRecyclerPaddingRight,
-                bottom = baseRecyclerPaddingBottom + bars.bottom
+            // No need to add bars.bottom to recyclerView because BottomNavigationView is below it.
+            // But we pad bottomNavigation for system navigation bar insets.
+            bottomNavigation.updatePadding(
+                bottom = bars.bottom
             )
             insets
         }
@@ -156,6 +243,84 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         refreshInstalledLauncherPackages()
         iconAdapter.submitRows(buildDisplayRows(visibleEntries))
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val bottomNavigation: BottomNavigationView? = findViewById(R.id.bottomNavigation)
+        if (bottomNavigation != null) {
+            outState.putInt("active_tab_id", bottomNavigation.selectedItemId)
+        }
+    }
+
+    private fun updateCurrentLanguageText(textView: TextView) {
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        val currentText = if (currentLocales.isEmpty) {
+            getString(R.string.about_language_system)
+        } else {
+            val locale = currentLocales.get(0)
+            val language = locale?.language
+            val script = locale?.script
+            val country = locale?.country
+            when (language) {
+                "en" -> getString(R.string.about_language_en)
+                "zh" -> {
+                    if (script == "Hant" || country == "TW" || country == "HK") {
+                        getString(R.string.about_language_zh_tw)
+                    } else {
+                        getString(R.string.about_language_zh_cn)
+                    }
+                }
+                else -> getString(R.string.about_language_system)
+            }
+        }
+        textView.text = currentText
+    }
+
+    private fun showLanguageSelectorDialog(currentLanguageText: TextView) {
+        val languages = arrayOf(
+            getString(R.string.about_language_system),
+            getString(R.string.about_language_en),
+            getString(R.string.about_language_zh_cn),
+            getString(R.string.about_language_zh_tw)
+        )
+
+        val currentLocales = AppCompatDelegate.getApplicationLocales()
+        val checkedItem = if (currentLocales.isEmpty) {
+            0
+        } else {
+            val locale = currentLocales.get(0)
+            val language = locale?.language
+            val script = locale?.script
+            val country = locale?.country
+            when (language) {
+                "en" -> 1
+                "zh" -> {
+                    if (script == "Hant" || country == "TW" || country == "HK") 3 else 2
+                }
+                else -> 0
+            }
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.about_language_title)
+            .setSingleChoiceItems(languages, checkedItem) { dialog, which ->
+                val localeTag = when (which) {
+                    1 -> "en"
+                    2 -> "zh-Hans"
+                    3 -> "zh-Hant"
+                    else -> ""
+                }
+                val locales = if (localeTag.isEmpty()) {
+                    LocaleListCompat.getEmptyLocaleList()
+                } else {
+                    LocaleListCompat.forLanguageTags(localeTag)
+                }
+                AppCompatDelegate.setApplicationLocales(locales)
+                updateCurrentLanguageText(currentLanguageText)
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun loadIconEntries(): List<IconEntry> {

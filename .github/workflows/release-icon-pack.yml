@@ -33,18 +33,35 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Make Gradlew Executable
+        run: chmod +x AndroidIconPack/gradlew
+
+      - name: Decode Keystore
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > AndroidIconPack/app/release.jks
+
       - name: Build release APK
         working-directory: AndroidIconPack
-        run: gradle :app:assembleRelease --stacktrace
+        run: |
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            ./gradlew :app:assembleRelease \
+              -PICONPACK_STORE_FILE=release.jks \
+              -PICONPACK_STORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}" \
+              -PICONPACK_KEY_ALIAS="${{ secrets.KEY_ALIAS }}" \
+              -PICONPACK_KEY_PASSWORD="${{ secrets.KEY_PASSWORD }}" \
+              --stacktrace
+          else
+            ./gradlew :app:assembleRelease --stacktrace
+          fi
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: AOSPPerfectIcons-icon-pack-apk
-          path: AndroidIconPack/app/build/outputs/apk/release/app-release.apk
+          path: AndroidIconPack/app/build/outputs/apk/release/*.apk
 
       - name: Attach APK to GitHub release
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: AndroidIconPack/app/build/outputs/apk/release/app-release.apk
+          files: AndroidIconPack/app/build/outputs/apk/release/*.apk
