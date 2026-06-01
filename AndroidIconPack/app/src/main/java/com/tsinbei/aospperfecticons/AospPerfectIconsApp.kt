@@ -1,4 +1,4 @@
-package com.hsukqi.aospperfecticons
+package com.tsinbei.aospperfecticons
 
 import android.app.Application
 import com.google.android.material.color.DynamicColors

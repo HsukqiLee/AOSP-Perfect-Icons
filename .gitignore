@@ -33,3 +33,8 @@ venv/
 
 # Keep this local scratch file out of commits
 template.sketch
+
+# Keystore / Signing keys
+*.jks
+*.keystore
+keystore_base64.txt

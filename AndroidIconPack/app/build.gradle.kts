@@ -170,38 +170,40 @@ val generateIconPackResources by tasks.registering {
             usedNames += finalName
 
             val components = componentMapByKey[normalizeMatchKey(displayName)]?.toList().orEmpty()
-            val previewDrawableName = "${finalName}_preview"
-            val launcherForegroundName = "${finalName}_foreground"
+            val previewDrawableName = if (finalName == "ic_launcher") "${finalName}_preview" else finalName
 
-            file.copyTo(drawableDir.resolve("${previewDrawableName}.png"), overwrite = true)
+            if (finalName == "ic_launcher") {
+                val xxxhdpiDir = generatedRoot.resolve("res/drawable-xxxhdpi")
+                xxxhdpiDir.mkdirs()
+                file.copyTo(xxxhdpiDir.resolve("${previewDrawableName}.png"), overwrite = true)
+                file.copyTo(drawableDir.resolve("${previewDrawableName}.png"), overwrite = true)
 
-            launcherDrawableDir.resolve("${launcherForegroundName}.xml").writeText(
-                """
-                <?xml version="1.0" encoding="utf-8"?>
-                <inset xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:insetLeft="12dp"
-                    android:insetTop="12dp"
-                    android:insetRight="12dp"
-                    android:insetBottom="12dp"
-                    android:drawable="@drawable/${previewDrawableName}" />
-                """.trimIndent() + "\n"
-            )
+                adaptiveXmlDir.resolve("${finalName}.xml").writeText(
+                    """
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+                        <background android:drawable="@android:color/white" />
+                        <foreground android:drawable="@drawable/${previewDrawableName}" />
+                    </adaptive-icon>
+                    """.trimIndent() + "\n"
+                )
 
-            adaptiveXmlDir.resolve("${finalName}.xml").writeText(
-                """
-                <?xml version="1.0" encoding="utf-8"?>
-                <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-                    <background android:drawable="@android:color/transparent" />
-                    <foreground android:drawable="@drawable/${launcherForegroundName}" />
-                </adaptive-icon>
-                """.trimIndent() + "\n"
-            )
-            iconEntries += GeneratedIconEntry(
-                name = displayName,
-                drawable = previewDrawableName,
-                launcherDrawable = finalName,
-                components = components
-            )
+                iconEntries += GeneratedIconEntry(
+                    name = displayName,
+                    drawable = previewDrawableName,
+                    launcherDrawable = finalName,
+                    components = components
+                )
+            } else {
+                file.copyTo(drawableDir.resolve("${finalName}.png"), overwrite = true)
+
+                iconEntries += GeneratedIconEntry(
+                    name = displayName,
+                    drawable = finalName,
+                    launcherDrawable = finalName,
+                    components = components
+                )
+            }
         }
 
         val jsonContent = buildString {
@@ -291,7 +293,7 @@ val generateIconPackResources by tasks.registering {
 }
 
 android {
-    namespace = "com.hsukqi.aospperfecticons"
+    namespace = "com.tsinbei.aospperfecticons"
     compileSdk = iconPackCompileSdk
 
     signingConfigs {
@@ -306,7 +308,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.hsukqi.aospperfecticons"
+        applicationId = "com.tsinbei.aospperfecticons"
         minSdk = 26
         targetSdk = iconPackTargetSdk
         versionCode = 1

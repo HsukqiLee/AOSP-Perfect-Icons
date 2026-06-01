@@ -13,4 +13,21 @@
     <string name="group_mapped_title">Usable (%1$d)</string>
     <string name="group_unmapped_title">Unmapped (%1$d)</string>
     <string name="press_back_again_to_exit">Press back again to exit</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_about">About</string>
+    <string name="about_title_settings">Settings</string>
+    <string name="about_language_title">App Language</string>
+    <string name="about_language_system">System Default</string>
+    <string name="about_language_en">English</string>
+    <string name="about_language_zh_cn">简体中文</string>
+    <string name="about_language_zh_tw">繁體中文</string>
+    <string name="about_title_developer">Developer</string>
+    <string name="about_developer_author">Author</string>
+    <string name="about_developer_author_value">Hsukqi Lee</string>
+    <string name="about_developer_github">GitHub Repository</string>
+    <string name="about_developer_github_value">HsukqiLee/Pixel-Launcher-Icons</string>
+    <string name="about_developer_original_github">Original Repository</string>
+    <string name="about_developer_original_github_value">elliana-wt/Pixel-Launcher-Icons</string>
+    <string name="about_title_credits">Acknowledgements</string>
+    <string name="about_credits_value">Special thanks to the original repository elliana-wt/Pixel-Launcher-Icons for providing some icons and inspiration, as well as Lawnchair, Lawnicons, Pixel Launcher Mods, and other community projects.</string>
 </resources>

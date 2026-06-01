@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AOSP 完美图标</string>
+    <string name="icon_count_text">共 %1$d 个可用图标</string>
+    <string name="search_result_text">搜索到 %1$d / %2$d 个结果</string>
+    <string name="search_hint">搜索应用名称、图标名或 Activity</string>
+    <string name="icon_content_desc">图标预览</string>
+    <string name="launch_failed">未找到可启动的应用</string>
+    <string name="launch_button_text">打开应用</string>
+    <string name="detail_package_text">包名: %1$s</string>
+    <string name="detail_activity_text">Activity: %1$s</string>
+    <string name="detail_unknown">未知</string>
+    <string name="group_mapped_title">已适配 (%1$d)</string>
+    <string name="group_unmapped_title">未适配 (%1$d)</string>
+    <string name="press_back_again_to_exit">再按一次退出应用</string>
+    <string name="tab_home">首页</string>
+    <string name="tab_about">关于</string>
+    <string name="about_title_settings">设置</string>
+    <string name="about_language_title">应用语言</string>
+    <string name="about_language_system">系统默认</string>
+    <string name="about_language_en">English</string>
+    <string name="about_language_zh_cn">简体中文</string>
+    <string name="about_language_zh_tw">繁體中文</string>
+    <string name="about_title_developer">开发者信息</string>
+    <string name="about_developer_author">作者</string>
+    <string name="about_developer_author_value">Hsukqi Lee</string>
+    <string name="about_developer_github">GitHub 仓库</string>
+    <string name="about_developer_github_value">HsukqiLee/Pixel-Launcher-Icons</string>
+    <string name="about_developer_original_github">原项目仓库</string>
+    <string name="about_developer_original_github_value">elliana-wt/Pixel-Launcher-Icons</string>
+    <string name="about_title_credits">致谢</string>
+    <string name="about_credits_value">特别感谢原项目仓库 elliana-wt/Pixel-Launcher-Icons 提供的部分图标和灵感，以及 Lawnchair、Lawnicons、Pixel Launcher Mods 等社区项目。</string>
+</resources>

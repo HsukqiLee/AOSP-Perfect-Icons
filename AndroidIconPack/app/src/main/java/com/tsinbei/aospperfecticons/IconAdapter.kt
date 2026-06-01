@@ -1,4 +1,4 @@
-package com.hsukqi.aospperfecticons
+package com.tsinbei.aospperfecticons
 
 import android.view.LayoutInflater
 import android.view.View
