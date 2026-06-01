@@ -11,6 +11,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
     steps:
       - name: Checkout
@@ -37,18 +42,18 @@ jobs:
         run: chmod +x AndroidIconPack/gradlew
 
       - name: Decode Keystore
-        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > AndroidIconPack/app/release.jks
+        if: ${{ env.KEYSTORE_BASE64 != '' }}
+        run: echo "$KEYSTORE_BASE64" | base64 --decode > AndroidIconPack/app/release.jks
 
       - name: Build release APK
         working-directory: AndroidIconPack
         run: |
-          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+          if [ -n "$KEYSTORE_BASE64" ]; then
             ./gradlew :app:assembleRelease \
               -PICONPACK_STORE_FILE=release.jks \
-              -PICONPACK_STORE_PASSWORD="${{ secrets.KEYSTORE_PASSWORD }}" \
-              -PICONPACK_KEY_ALIAS="${{ secrets.KEY_ALIAS }}" \
-              -PICONPACK_KEY_PASSWORD="${{ secrets.KEY_PASSWORD }}" \
+              -PICONPACK_STORE_PASSWORD="$KEYSTORE_PASSWORD" \
+              -PICONPACK_KEY_ALIAS="$KEY_ALIAS" \
+              -PICONPACK_KEY_PASSWORD="$KEY_PASSWORD" \
               --stacktrace
           else
             ./gradlew :app:assembleRelease --stacktrace
