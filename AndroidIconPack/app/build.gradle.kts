@@ -288,11 +288,18 @@ val generateIconPackResources by tasks.registering {
             iconEntries.forEach { entry ->
                 val launcherDrawable = if (entry.launcherDrawable.isNotBlank()) entry.launcherDrawable else entry.drawable
                 val launcherComponents = entry.components.filter { component ->
-                    val start = component.indexOf('{')
-                    val slash = component.indexOf('/')
-                    val end = component.indexOf('}')
-                    component.startsWith("ComponentInfo{") &&
+                    if (component.startsWith("ComponentInfo{")) {
+                        val start = component.indexOf('{')
+                        val slash = component.indexOf('/')
+                        val end = component.indexOf('}')
                         start >= 0 && slash > start + 1 && end > slash + 1
+                    } else if (component.startsWith("PackageInfo{")) {
+                        val start = component.indexOf('{')
+                        val end = component.indexOf('}')
+                        start >= 0 && end > start + 1
+                    } else {
+                        false
+                    }
                 }
                 append("    <item drawable=\"")
                 append(xmlEscape(launcherDrawable))
