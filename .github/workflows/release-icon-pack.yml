@@ -20,6 +20,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check and Update Version
+        id: version_check
+        if: github.event_name == 'release'
+        run: |
+          python .github/workflows/update_version.py AndroidIconPack/app/build.gradle.kts ${{ github.event.release.tag_name }}
+
+      - name: Commit and Push Version Update
+        if: github.event_name == 'release' && steps.version_check.outputs.updated == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          TARGET_BRANCH="${{ github.event.release.target_commitish }}"
+          if [ -z "$TARGET_BRANCH" ]; then
+            TARGET_BRANCH="main"
+          fi
+          
+          git checkout .
+          git checkout "$TARGET_BRANCH"
+          
+          python .github/workflows/update_version.py AndroidIconPack/app/build.gradle.kts ${{ github.event.release.tag_name }}
+          
+          git add AndroidIconPack/app/build.gradle.kts
+          git commit -m "chore: bump version to ${{ steps.version_check.outputs.version_name }} (code: ${{ steps.version_check.outputs.version_code }})"
+          git push origin "$TARGET_BRANCH"
+          
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          git tag -f "$TAG_NAME"
+          git push origin "$TAG_NAME" --force
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
