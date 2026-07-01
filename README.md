@@ -1,4 +1,5 @@
 ![image](https://github.com/elliana-wt/Pixel-Launcher-Icons/blob/main/otherimg/githubbanner.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons?ref=badge_shield)
 
 # AOSP Perfect Icons & Pixel 启动器图标补全计划
 
@@ -135,3 +136,7 @@ Android 系统启动器是通过应用的组件信息来识别并替换图标的
 ---
 
 ![image](https://github.com/elliana-wt/Pixel-Launcher-Icons/blob/main/otherimg/launcher.jpg)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons?ref=badge_large)
