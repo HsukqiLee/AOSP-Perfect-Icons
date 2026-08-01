@@ -120,9 +120,9 @@ Android 系统启动器是通过应用的组件信息来识别并替换图标的
 打开你的 GitHub 仓库，进入 **Settings** -> **Secrets and variables** -> **Actions** -> **New repository secret**，添加以下四个变量：
 
 * **`KEYSTORE_BASE64`**: 粘贴 `keystore_base64.txt` 里的全部 Base64 字符串。
-* **`KEYSTORE_PASSWORD`**: your Key Store password (你的 Key Store 密码)
+* **`KEYSTORE_PASSWORD`**: 你的 Key Store 密码。
 * **`KEY_ALIAS`**: `perfecticons` (你的证书别名)
-* **`KEY_PASSWORD`**: your private key password (你的别名私钥密码)
+* **`KEY_PASSWORD`**: 你的别名私钥密码。
 
 *配置完成后，Actions 就会在云端拉取这些密文、自动解密为证书并完成构建，生成完美签名的 `app-release.apk` 挂载到 Release 页！*
 
