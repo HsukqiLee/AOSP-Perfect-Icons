@@ -1,5 +1,6 @@
 ![image](https://github.com/elliana-wt/Pixel-Launcher-Icons/blob/main/otherimg/githubbanner.png)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FHsukqiLee%2FAOSP-Perfect-Icons?ref=badge_shield)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6094b6a6926a4063af77f909310a4e33)](https://app.codacy.com/gh/TsinbeiLabs/AOSP-Perfect-Icons/dashboard)
 
 # AOSP Perfect Icons & Pixel 启动器图标补全计划
 
